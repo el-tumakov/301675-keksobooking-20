@@ -1,7 +1,7 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
 * Студент: [Егор Тумаков](https://up.htmlacademy.ru/javascript/20/user/301675).
-* Наставник: `Неизвестно`.
+* Наставник: [Дмитрий Железцов](https://htmlacademy.ru/profile/sench).
 
 ---
 
