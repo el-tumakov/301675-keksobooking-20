@@ -1,6 +1,6 @@
 'use strict';
 
-var COUNT_AD = 8;
+var NUMBER_OF_PINS = 8;
 var TITLES = [
   'Хрущовка в колпино',
   'Коммуналка на ваське',
@@ -138,12 +138,12 @@ var renderPin = function (template, parentNode, data) {
 };
 
 
-var ads = [];
+var pins = [];
 var pinTemplate = document.querySelector('#pin').content;
 var pinsList = document.querySelector('.map__pins');
 
-for (var i = 0; i < COUNT_AD; i++) {
-  ads[i] = generateArrayObjects();
+for (var i = 0; i < NUMBER_OF_PINS; i++) {
+  pins[i] = generateArrayObjects();
 
-  renderPin(pinTemplate, pinsList, ads[i]);
+  renderPin(pinTemplate, pinsList, pins[i]);
 }
