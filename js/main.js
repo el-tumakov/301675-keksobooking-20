@@ -70,7 +70,6 @@ var PHOTO_SIZE = {
 };
 
 
-
 var map = document.querySelector('.map');
 map.classList.remove('map--faded');
 
@@ -109,7 +108,7 @@ var generateArrayObjects = function () {
     y: getRandomInteger(POSITION_Y.min, POSITION_Y.max)
   };
 
-  var object = {
+  return {
     'author': {
       'avatar': 'img/avatars/user0' + (i + 1) + '.png'
     },
@@ -131,8 +130,6 @@ var generateArrayObjects = function () {
       'y': coordinates.y
     }
   };
-
-  return object;
 };
 
 var renderPin = function (template, parentNode, data) {
