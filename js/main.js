@@ -64,6 +64,11 @@ var POSITION_Y = {
   'min': 130,
   'max': 630
 };
+var PHOTO_SIZE = {
+  'width': 45,
+  'height': 40
+};
+
 
 
 var map = document.querySelector('.map');
@@ -164,8 +169,8 @@ var renderPhoto = function (parentNode, photos) {
 
     photoElement.src = photos[i];
     photoElement.classList.add('popup__photo');
-    photoElement.width = 45;
-    photoElement.height = 40;
+    photoElement.width = PHOTO_SIZE.width;
+    photoElement.height = PHOTO_SIZE.height;
 
     parentNode.appendChild(photoElement);
   }
