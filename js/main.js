@@ -290,23 +290,29 @@ var setActiveStatus = function () {
     (mainPin.offsetLeft + mainPin.offsetWidth / 2) +
     ', ' +
     (mainPin.offsetTop + mainPin.offsetHeight);
+
+  mainPin.removeEventListener('mousedown', mainPinMousedownHandler);
+  mainPin.removeEventListener('keydown', mainPinKeydownEnterHandler);
 };
 
-mainPin.addEventListener('mousedown', function (evt) {
+var mainPinMousedownHandler = function (evt) {
   evt.preventDefault();
 
   if (evt.button === 0) {
     setActiveStatus();
   }
-});
+};
 
-mainPin.addEventListener('keydown', function (evt) {
+var mainPinKeydownEnterHandler = function (evt) {
   evt.preventDefault();
 
   if (evt.key === ENTER_KEY) {
     setActiveStatus();
   }
-});
+};
+
+mainPin.addEventListener('mousedown', mainPinMousedownHandler);
+mainPin.addEventListener('keydown', mainPinKeydownEnterHandler);
 
 
 var roomNumber = formAd.querySelector('#room_number');
