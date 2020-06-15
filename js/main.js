@@ -73,20 +73,19 @@ var ESCAPE_KEY = 'Escape';
 var ROOM_NUMBER_100 = '100';
 var CAPACITY_NULL = '0';
 
-
-var map = document.querySelector('.map');
-
-
+// Получаем рандомное целое число
 var getRandomInteger = function (min, max) {
   var rand = min - 0.5 + Math.random() * (max - min + 1);
 
   return Math.round(rand);
 };
 
+// Получаем рандомный элемент массива
 var getRandomElement = function (array) {
   return array[Math.floor(Math.random() * array.length)];
 };
 
+// Получаем рандомный массив из другого массива
 var getRandomArray = function (array) {
   var anotherArray = [];
 
@@ -99,12 +98,17 @@ var getRandomArray = function (array) {
   return anotherArray;
 };
 
+// Удаляем из DOM всех детей у родителя
 var removeChildren = function (parent) {
   while (parent.firstChild) {
     parent.removeChild(parent.firstChild);
   }
 };
 
+
+var map = document.querySelector('.map');
+
+// Генерируем массив объектов (объявлений)
 var generateArrayObjects = function (index) {
   var coordinates = {
     x: getRandomInteger(POSITION_X.min, map.clientWidth),
@@ -135,6 +139,7 @@ var generateArrayObjects = function (index) {
   };
 };
 
+// Отрисовывем метку на карте
 var renderPin = function (template, parentNode, data) {
   var pinElement = template.cloneNode(true);
   var pin = pinElement.querySelector('.map__pin');
@@ -148,6 +153,7 @@ var renderPin = function (template, parentNode, data) {
   parentNode.appendChild(pinElement);
 };
 
+// Отрисовывем особенности объявления
 var renderFeature = function (parentNode, features) {
   removeChildren(parentNode);
 
@@ -161,6 +167,7 @@ var renderFeature = function (parentNode, features) {
   }
 };
 
+// Отрисовываем фотографии объявления
 var renderPhoto = function (parentNode, photos) {
   removeChildren(parentNode);
 
@@ -176,6 +183,7 @@ var renderPhoto = function (parentNode, photos) {
   }
 };
 
+// Отрисовываем карточку объявления
 var renderCard = function (template, node, data) {
   var type;
 
@@ -233,66 +241,213 @@ var filtersContainer = document.querySelector('.map__filters-container');
 var formAd = document.querySelector('.ad-form');
 var adFieldsets = formAd.querySelectorAll('fieldset');
 var formFilters = document.querySelector('.map__filters');
-var filterSelects = formFilters.querySelectorAll('select');
-var filterFieldset = formFilters.querySelector('fieldset');
+// var filterSelects = formFilters.querySelectorAll('select');
+// var filterFieldset = formFilters.querySelector('fieldset');
 
+// Добавляет атрибут Disabled элементу
 var setDisabled = function (element) {
   element.setAttribute('disabled', 'disabled');
 };
 
+// Убираем атрибут Disabled у элемента
 var removeDisabled = function (element) {
   element.removeAttribute('disabled');
 };
 
+// Блокируем все поля основной формы
 adFieldsets.forEach(function (item) {
   setDisabled(item);
 });
 
-filterSelects.forEach(function (item) {
-  setDisabled(item);
-});
-
-setDisabled(filterFieldset);
+// Блокируем все поля формы с фильтром
+for (var i = 0; i < formFilters.children.length; i++) {
+  setDisabled(formFilters.children[i]);
+}
 
 
 var mainPin = document.querySelector('.map__pin--main');
-var inputAddress = formAd.querySelector('#address');
 
-inputAddress.value =
-  (mainPin.offsetLeft + mainPin.offsetWidth / 2) +
-  ', ' +
-  (mainPin.offsetTop + mainPin.offsetHeight / 2);
-
+// Активируем карту и все формы
 var setActiveStatus = function () {
+  // Показываем карту и формы
   map.classList.remove('map--faded');
   formAd.classList.remove('ad-form--disabled');
 
+  // Убираем блокировку полей основной формы
   adFieldsets.forEach(function (item) {
     removeDisabled(item);
   });
 
-  filterSelects.forEach(function (item) {
-    removeDisabled(item);
-  });
+  // Убираем блокировку полей формы с фильтром
+  for (i = 0; i < formFilters.children.length; i++) {
+    removeDisabled(formFilters.children[i]);
+  }
 
-  removeDisabled(filterFieldset);
+  var inputAddress = formAd.querySelector('#address');
 
+  // Устанавлием значение текущей позиции главной метки в поле с адресом
   inputAddress.value =
     (mainPin.offsetLeft + mainPin.offsetWidth / 2) +
     ', ' +
     (mainPin.offsetTop + mainPin.offsetHeight);
 
-  for (var i = 0; i < NUMBER_OF_PINS; i++) {
+  var typeHousing = document.querySelector('#type');
+  var pricePerNight = document.querySelector('#price');
+
+  // Изменение минимальной цены за ночь
+  var changePrice = function (price) {
+    pricePerNight.min = price;
+    pricePerNight.placeholder = price;
+  };
+
+  // Обработчик выбора типа жилья -
+  // устанавливает минимальную цену
+  typeHousing.addEventListener('change', function () {
+    switch (typeHousing.value) {
+      case 'bungalo':
+        changePrice(0);
+        break;
+      case 'flat':
+        changePrice(1000);
+        break;
+      case 'house':
+        changePrice(5000);
+        break;
+      case 'palace':
+        changePrice(10000);
+        break;
+    }
+  });
+
+  var roomNumber = formAd.querySelector('#room_number');
+  var capacity = formAd.querySelector('#capacity');
+
+  // Блокировка значений для поля с кол-ом гостей
+  var disableCapacity = function () {
+    for (i = 0; i < capacity.options.length; i++) {
+      setDisabled(capacity.options[i]);
+    }
+  };
+
+  // Активация значений для поля с кол-ом гостей
+  var enableCapacity = function () {
+    for (i = 0; i < capacity.options.length; i++) {
+      if (capacity.options[i].value <= roomNumber.value &&
+          capacity.options[i].value !== CAPACITY_NULL &&
+          roomNumber.value !== ROOM_NUMBER_100) {
+        removeDisabled(capacity.options[i]);
+      } else if (capacity.options[i].value === CAPACITY_NULL &&
+                 roomNumber.value === ROOM_NUMBER_100) {
+        removeDisabled(capacity.options[i]);
+      }
+    }
+  };
+
+  // Проверка соответвия кол-ва комнат и числа гостей
+  var checkValidity = function () {
+    var currentCapacity = capacity.options[capacity.selectedIndex];
+
+    if (currentCapacity.hasAttribute('disabled')) {
+      capacity.setCustomValidity('Число гостей не соответствует числу комнат');
+    } else {
+      capacity.setCustomValidity('');
+    }
+  };
+
+  // Активируем допустимые значения для поля с количеством гостей
+  disableCapacity();
+  enableCapacity();
+  checkValidity();
+
+  // Обработчик изменения поля с количеством комнат -
+  // разблокирует допустимое кол-во гостей и
+  // проверяет соответствие количества комнат и гостей
+  roomNumber.addEventListener('change', function () {
+    disableCapacity();
+    enableCapacity();
+    checkValidity();
+  });
+
+  // Обработчик изменения кол-ва гостей -
+  // проверяет соответствие количества комнат и гостей
+  capacity.addEventListener('change', function () {
+    checkValidity();
+  });
+
+  // Синхронизация полей заезда и выезда
+  var timeIn = document.querySelector('#timein');
+  var timeOut = document.querySelector('#timeout');
+
+  timeIn.addEventListener('change', function () {
+    timeOut.value = timeIn.value;
+  });
+
+  timeOut.addEventListener('change', function () {
+    timeIn.value = timeOut.value;
+  });
+
+  // Отрисовка на карте меток с объявлениями
+  for (i = 0; i < NUMBER_OF_PINS; i++) {
     pins[i] = generateArrayObjects(i);
 
     renderPin(pinTemplate, pinsList, pins[i]);
   }
 
+  // Удаление карточки объявления из DOM
+  var removeCard = function () {
+    var card = document.querySelector('.map__card');
+
+    if (card) {
+      card.remove();
+    }
+
+    document.removeEventListener('keydown', documentKeydownEscHandler);
+  };
+
+  // Обработчик нажатия ESC на документе -
+  // удаляет карточку объявления из DOM
+  var documentKeydownEscHandler = function (evt) {
+    if (evt.key === ESCAPE_KEY) {
+      removeCard();
+    }
+  };
+
+  // Обработчик клика на метки с объявлениями
+  var pinsListClickHandler = function (evt) {
+    evt.preventDefault();
+
+    var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    // Показываем карточку объявления
+    mapPins.forEach(function (item, index) {
+      if (evt.path.includes(item)) {
+        removeCard();
+        renderCard(cardTemplate, filtersContainer, pins[index]);
+
+        var cardClose = document.querySelector('.popup__close');
+
+        // Вешаем обработчик для закрытия карточки объявления
+        cardClose.addEventListener('click', function (cardCloseEvt) {
+          cardCloseEvt.preventDefault();
+
+          removeCard();
+        });
+
+        document.addEventListener('keydown', documentKeydownEscHandler);
+      }
+    });
+  };
+
+  // Убираем обработчики для главной метки
   mainPin.removeEventListener('mousedown', mainPinMousedownHandler);
   mainPin.removeEventListener('keydown', mainPinKeydownEnterHandler);
+
+  // Добавляем обработчик клика на отрисованные метки с объявлениями
   pinsList.addEventListener('click', pinsListClickHandler);
 };
 
+// Обработчики нажатия на главную метку -
+// показывает карту и формы
 var mainPinMousedownHandler = function (evt) {
   evt.preventDefault();
 
@@ -309,92 +464,6 @@ var mainPinKeydownEnterHandler = function (evt) {
   }
 };
 
+// Добавляем обработчики главной метке
 mainPin.addEventListener('mousedown', mainPinMousedownHandler);
 mainPin.addEventListener('keydown', mainPinKeydownEnterHandler);
-
-
-var roomNumber = formAd.querySelector('#room_number');
-var capacity = formAd.querySelector('#capacity');
-
-var disableCapacity = function () {
-  for (var i = 0; i < capacity.options.length; i++) {
-    setDisabled(capacity.options[i]);
-  }
-};
-
-var enableCapacity = function () {
-  for (var i = 0; i < capacity.options.length; i++) {
-    if (capacity.options[i].value <= roomNumber.value &&
-        capacity.options[i].value !== CAPACITY_NULL &&
-        roomNumber.value !== ROOM_NUMBER_100) {
-      removeDisabled(capacity.options[i]);
-    } else if (capacity.options[i].value === CAPACITY_NULL &&
-               roomNumber.value === ROOM_NUMBER_100) {
-      removeDisabled(capacity.options[i]);
-    }
-  }
-};
-
-var checkValidity = function () {
-  var currentCapacity = capacity.options[capacity.selectedIndex];
-
-  if (currentCapacity.hasAttribute('disabled')) {
-    capacity.setCustomValidity('Число гостей не соответствует числу комнат');
-  } else {
-    capacity.setCustomValidity('');
-  }
-};
-
-disableCapacity();
-enableCapacity();
-checkValidity();
-
-roomNumber.addEventListener('change', function () {
-  disableCapacity();
-  enableCapacity();
-  checkValidity();
-});
-
-capacity.addEventListener('change', function () {
-  checkValidity();
-});
-
-
-var removeCard = function () {
-  var card = document.querySelector('.map__card');
-
-  if (card) {
-    card.remove();
-  }
-
-  document.removeEventListener('keydown', documentKeydownEscHandler);
-};
-
-var documentKeydownEscHandler = function (evt) {
-  if (evt.key === ESCAPE_KEY) {
-    removeCard();
-  }
-};
-
-var pinsListClickHandler = function (evt) {
-  evt.preventDefault();
-
-  var mapPins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-
-  mapPins.forEach(function (item, index) {
-    if (evt.path.includes(item)) {
-      removeCard();
-      renderCard(cardTemplate, filtersContainer, pins[index]);
-
-      var cardClose = document.querySelector('.popup__close');
-
-      cardClose.addEventListener('click', function (cardCloseEvt) {
-        cardCloseEvt.preventDefault();
-
-        removeCard();
-      });
-
-      document.addEventListener('keydown', documentKeydownEscHandler);
-    }
-  });
-};
