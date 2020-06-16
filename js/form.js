@@ -36,9 +36,9 @@
 
   var setAddress = function () {
     inputAddress.value =
-      (mainPin.offsetLeft + mainPin.offsetWidth / 2) +
+      Math.round(mainPin.offsetLeft + mainPin.offsetWidth / 2) +
       ', ' +
-      (mainPin.offsetTop + mainPin.offsetHeight);
+      Math.round(mainPin.offsetTop + mainPin.offsetHeight);
   };
 
   var changePrice = function (price) {
