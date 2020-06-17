@@ -63,7 +63,7 @@
     evt.preventDefault();
 
     if (evt.button === 0) {
-      action();
+      action(evt);
     }
   };
 

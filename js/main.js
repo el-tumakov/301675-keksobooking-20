@@ -10,7 +10,6 @@
     formAd.classList.remove('ad-form--disabled');
 
     window.form.setFormsStatus(window.utils.removeDisabled);
-    window.form.setAddress();
     window.form.setTypeHousingChangeListener();
     window.form.disableCapacity();
     window.form.enableCapacity();
