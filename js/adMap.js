@@ -1,20 +1,14 @@
 'use strict';
 
 (function () {
-  var NUMBER_OF_PINS = 8;
-
-
-  var pins = [];
   var pinsList = document.querySelector('.map__pins');
   var pinTemplate = document.querySelector('#pin').content;
   var cardTemplate = document.querySelector('#card').content;
   var filtersContainer = document.querySelector('.map__filters-container');
 
-  var addPins = function () {
-    for (var i = 0; i < NUMBER_OF_PINS; i++) {
-      pins[i] = window.data.generateArrayObjects(i);
-
-      window.pin.renderPin(pinTemplate, pinsList, pins[i]);
+  var addPins = function (data) {
+    for (var i = 0; i < data.length; i++) {
+      window.pin.renderPin(pinTemplate, pinsList, data[i]);
     }
   };
 
@@ -40,7 +34,12 @@
     mapPins.forEach(function (item, index) {
       if (evt.path.includes(item)) {
         removeCard();
-        window.card.renderCard(cardTemplate, filtersContainer, pins[index]);
+
+        window.card.renderCard(
+            cardTemplate,
+            filtersContainer,
+            window.data.ads[index]
+        );
 
         var cardClose = document.querySelector('.popup__close');
 
