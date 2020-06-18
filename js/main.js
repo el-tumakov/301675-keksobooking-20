@@ -18,8 +18,7 @@
     window.form.setCapacityChangeListener();
     window.form.setTimeFieldsetChangeListener();
 
-    window.adMap.addPins();
-    window.adMap.setPinsListClickListener();
+    window.data.loadData();
 
     mainPin.removeEventListener('mousedown', mainPinMousedownHandler);
     mainPin.removeEventListener('keydown', mainPinKeydownEnterHandler);
