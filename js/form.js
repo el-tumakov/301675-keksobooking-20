@@ -9,20 +9,36 @@
   };
   var ROOM_NUMBER_100 = '100';
   var CAPACITY_NULL = '0';
+  var DEFAULT = {
+    title: '',
+    address: '',
+    house: 'flat',
+    price: PRICE.flat,
+    timeIn: '12:00',
+    timeOut: '12:00',
+    rooms: 1,
+    guests: 1,
+    features: false,
+    description: ''
+  };
 
 
   var formAd = document.querySelector('.ad-form');
   var adFieldsets = formAd.querySelectorAll('fieldset');
   var formFilters = document.querySelector('.map__filters');
+  var inputTitle = formAd.querySelector('#title');
   var inputAddress = formAd.querySelector('#address');
   var mainPin = document.querySelector('.map__pin--main');
-  var typeHousing = document.querySelector('#type');
-  var pricePerNight = document.querySelector('#price');
+  var typeHousing = formAd.querySelector('#type');
+  var pricePerNight = formAd.querySelector('#price');
   var capacity = formAd.querySelector('#capacity');
   var roomNumber = formAd.querySelector('#room_number');
-  var timeIn = document.querySelector('#timein');
-  var timeOut = document.querySelector('#timeout');
-  var timeFieldset = document.querySelector('.ad-form__element--time');
+  var timeIn = formAd.querySelector('#timein');
+  var timeOut = formAd.querySelector('#timeout');
+  var timeFieldset = formAd.querySelector('.ad-form__element--time');
+  var features = formAd.querySelectorAll('.feature__checkbox');
+  var description = formAd.querySelector('#description');
+  var resetButton = formAd.querySelector('.ad-form__reset');
 
   var setFormsStatus = function (method) {
     adFieldsets.forEach(function (item) {
@@ -95,27 +111,90 @@
   };
 
   var setRoomNumberChangeListener = function () {
-    roomNumber.addEventListener('change', function () {
-      disableCapacity();
-      enableCapacity();
-      checkValidityGuests();
-    });
+    roomNumber.addEventListener('change', roomNumberChangeHandler);
+  };
+
+  var removeRoomNumberChangeListener = function () {
+    roomNumber.removeEventListener('change', roomNumberChangeHandler);
+  };
+
+  var roomNumberChangeHandler = function () {
+    disableCapacity();
+    enableCapacity();
+    checkValidityGuests();
   };
 
   var setCapacityChangeListener = function () {
-    capacity.addEventListener('change', function () {
-      checkValidityGuests();
-    });
+    capacity.addEventListener('change', capacityChangeHandler);
+  };
+
+  var removeCapacityChangeListener = function () {
+    capacity.removeEventListener('change', capacityChangeHandler);
+  };
+
+  var capacityChangeHandler = function () {
+    checkValidityGuests();
   };
 
   var setTimeFieldsetChangeListener = function () {
-    timeFieldset.addEventListener('change', function (evt) {
-      if (evt.target === timeIn) {
-        timeOut.value = timeIn.value;
-      } else {
-        timeIn.value = timeOut.value;
-      }
+    timeFieldset.addEventListener('change', timeFieldsetChangeHandler);
+  };
+
+  var removeTimeFieldsetChangeListener = function () {
+    timeFieldset.removeEventListener('change', timeFieldsetChangeHandler);
+  };
+
+  var timeFieldsetChangeHandler = function (evt) {
+    if (evt.target === timeIn) {
+      timeOut.value = timeIn.value;
+    } else {
+      timeIn.value = timeOut.value;
+    }
+  };
+
+  var setFormSubmitListener = function () {
+    formAd.addEventListener('submit', formSubmitHandler);
+  };
+
+  var removeFormSubmitListener = function () {
+    formAd.removeEventListener('submit', formSubmitHandler);
+  };
+
+  var formSubmitHandler = function (evt) {
+    window.data.saveData();
+
+    evt.preventDefault();
+  };
+
+  var setResetButtonClickListener = function () {
+    resetButton.addEventListener('click', resetButtonClickHandler);
+  };
+
+  var removeResetButtonClickListener = function () {
+    resetButton.removeEventListener('click', resetButtonClickHandler);
+  };
+
+  var resetButtonClickHandler = function (evt) {
+    evt.preventDefault();
+
+    window.main.removeActiveStatus();
+  };
+
+  var setDefault = function () {
+    inputTitle.value = DEFAULT.title;
+    inputAddress.value = DEFAULT.address;
+    typeHousing.value = DEFAULT.house;
+    pricePerNight.value = DEFAULT.price;
+    timeIn.value = DEFAULT.timeIn;
+    timeOut.value = DEFAULT.timeOut;
+    roomNumber.value = DEFAULT.rooms;
+    capacity.value = DEFAULT.guests;
+
+    features.forEach(function (item) {
+      item.checked = DEFAULT.features;
     });
+
+    description.value = DEFAULT.description;
   };
 
 
@@ -131,6 +210,14 @@
     checkValidityGuests: checkValidityGuests,
     setRoomNumberChangeListener: setRoomNumberChangeListener,
     setCapacityChangeListener: setCapacityChangeListener,
-    setTimeFieldsetChangeListener: setTimeFieldsetChangeListener
+    setTimeFieldsetChangeListener: setTimeFieldsetChangeListener,
+    setFormSubmitListener: setFormSubmitListener,
+    setResetButtonClickListener: setResetButtonClickListener,
+    removeRoomNumberChangeListener: removeRoomNumberChangeListener,
+    removeCapacityChangeListener: removeCapacityChangeListener,
+    removeTimeFieldsetChangeListener: removeTimeFieldsetChangeListener,
+    removeFormSubmitListener: removeFormSubmitListener,
+    removeResetButtonClickListener: removeResetButtonClickListener,
+    setDefault: setDefault
   };
 })();

@@ -12,6 +12,14 @@
     }
   };
 
+  var removePins = function () {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+
+    pins.forEach(function (item) {
+      item.remove();
+    });
+  };
+
   var removeCard = function () {
     var card = document.querySelector('.map__card');
 
@@ -61,6 +69,7 @@
 
   window.adMap = {
     addPins: addPins,
+    removePins: removePins,
     setPinsListClickListener: setPinsListClickListener
   };
 })();
