@@ -36,6 +36,7 @@
     formAd.classList.add('ad-form--disabled');
 
     window.adMap.removePins();
+    window.adMap.removeCard();
 
     window.form.setFormsStatus(window.utils.setDisabled);
     window.form.disableCapacity();

@@ -70,6 +70,7 @@
   window.adMap = {
     addPins: addPins,
     removePins: removePins,
-    setPinsListClickListener: setPinsListClickListener
+    setPinsListClickListener: setPinsListClickListener,
+    removeCard: removeCard
   };
 })();
