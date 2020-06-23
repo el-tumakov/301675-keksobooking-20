@@ -2,13 +2,15 @@
 
 (function () {
   var URL = {
-    load: 'https://javascript.pages.academy/keksobooking/data'
+    load: 'https://javascript.pages.academy/keksobooking/data',
+    save: 'https://javascript.pages.academy/keksobooking'
   };
   var STATUS_CODE = {
     ok: 200
   };
   var METHOD = {
     get: 'GET',
+    post: 'POST'
   };
   var TIMEOUT = 100000;
 
@@ -44,8 +46,12 @@
     createXhr(onLoad, onError, METHOD.get, URL.load);
   };
 
+  var save = function (data, onLoad, onError) {
+    createXhr(onLoad, onError, METHOD.post, URL.save, data);
+  };
 
   window.backend = {
-    load: load
+    load: load,
+    save: save
   };
 })();
