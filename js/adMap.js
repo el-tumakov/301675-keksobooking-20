@@ -10,6 +10,8 @@
     for (var i = 0; i < data.length; i++) {
       window.pin.renderPin(pinTemplate, pinsList, data[i]);
     }
+
+    pinsList.addEventListener('click', pinsListClickHandler);
   };
 
   var removePins = function () {
@@ -62,15 +64,10 @@
     });
   };
 
-  var setPinsListClickListener = function () {
-    pinsList.addEventListener('click', pinsListClickHandler);
-  };
-
 
   window.adMap = {
     addPins: addPins,
     removePins: removePins,
-    setPinsListClickListener: setPinsListClickListener,
     removeCard: removeCard
   };
 })();

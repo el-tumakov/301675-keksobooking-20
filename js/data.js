@@ -20,9 +20,7 @@
 
   var loadSuccessHandler = function (data) {
     window.data.ads = data;
-
-    window.adMap.addPins(data);
-    window.adMap.setPinsListClickListener();
+    window.filter.applyFilter();
   };
 
   var saveSuccessHandler = function () {
