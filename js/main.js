@@ -27,6 +27,8 @@
 
     window.data.loadData();
 
+    window.filter.setFormChangeListener();
+
     mainPin.removeEventListener('mousedown', mainPinMousedownHandler);
     mainPin.removeEventListener('keydown', mainPinKeydownEnterHandler);
   };
@@ -46,6 +48,9 @@
     window.form.removeFormSubmitListener();
     window.form.removeResetButtonClickListener();
     window.form.setDefault();
+
+    window.filter.removeFormChangeListener();
+    window.filter.setDefault();
 
     mainPin.style.top = DEFAULT_POSITION.top;
     mainPin.style.left = DEFAULT_POSITION.left;
