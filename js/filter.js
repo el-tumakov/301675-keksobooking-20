@@ -186,7 +186,7 @@
   var formChangeHandler = function (evt) {
     evt.preventDefault();
 
-    applyFilter();
+    window.debounce(applyFilter);
   };
 
   var setFormChangeListener = function () {
