@@ -48,7 +48,7 @@
         window.card.renderCard(
             cardTemplate,
             filtersContainer,
-            window.data.ads[index]
+            window.filter.data[index]
         );
 
         var cardClose = document.querySelector('.popup__close');
