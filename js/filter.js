@@ -12,20 +12,26 @@
   var Price = {
     ANY: 'any',
     MIDDLE: 'middle',
-    LOW: 'low',
-    HIGH: 'high'
+    LOW: {
+      name: 'low',
+      value: 10000
+    },
+    HIGH: {
+      name: 'high',
+      value: 50000
+    }
   };
   var Rooms = {
     ANY: 'any',
-    1: 1,
-    2: 2,
-    3: 3
+    ONE: '1',
+    TWO: '2',
+    THREE: '3'
   };
   var Guests = {
     ANY: 'any',
-    2: 2,
-    1: 1,
-    0: 0
+    TWO: '2',
+    ONE: '1',
+    NULL: '0'
   };
   var Default = {
     TYPE: Type.ANY,
@@ -39,17 +45,25 @@
   var typeInput = form.querySelector('#housing-type');
   var priceInput = form.querySelector('#housing-price');
   var roomsInput = form.querySelector('#housing-rooms');
-  var GuestsInput = form.querySelector('#housing-guests');
+  var guestsInput = form.querySelector('#housing-guests');
   var featureInputs = form.querySelectorAll('.map__checkbox');
   var data = [];
 
   var changeFilterType = function (type) {
-    data = window.data.ads.filter(function (item) {
-      if (item.offer.type === type) {
-        return true;
-      } else {
-        return false;
-      }
+    data = data.filter(function (item) {
+      return item.offer.type === type;
+    });
+  };
+
+  var changeFilterRooms = function (rooms) {
+    data = data.filter(function (item) {
+      return item.offer.rooms === +rooms;
+    });
+  };
+
+  var changeFilterGuests = function (guests) {
+    data = data.filter(function (item) {
+      return item.offer.guests === +guests;
     });
   };
 
@@ -73,6 +87,71 @@
     }
   };
 
+  var getDataByPrice = function () {
+    switch (priceInput.value) {
+      case Price.ANY:
+        break;
+      case Price.MIDDLE:
+        data = data.filter(function (item) {
+          return item.offer.price >= Price.LOW.value &&
+                 item.offer.price <= Price.HIGH.value;
+        });
+        break;
+      case Price.LOW.name:
+        data = data.filter(function (item) {
+          return item.offer.price < Price.LOW.value;
+        });
+        break;
+      case Price.HIGH.name:
+        data = data.filter(function (item) {
+          return item.offer.price > Price.HIGH.value;
+        });
+        break;
+    }
+  };
+
+  var getDataByRooms = function () {
+    switch (roomsInput.value) {
+      case Rooms.ANY:
+        break;
+      case Rooms.ONE:
+        changeFilterRooms(Rooms.ONE);
+        break;
+      case Rooms.TWO:
+        changeFilterRooms(Rooms.TWO);
+        break;
+      case Rooms.THREE:
+        changeFilterRooms(Rooms.THREE);
+        break;
+    }
+  };
+
+  var getDataByGuests = function () {
+    switch (guestsInput.value) {
+      case Guests.ANY:
+        break;
+      case Guests.TWO:
+        changeFilterGuests(Guests.TWO);
+        break;
+      case Guests.ONE:
+        changeFilterGuests(Guests.ONE);
+        break;
+      case Guests.NULL:
+        changeFilterGuests(Guests.NULL);
+        break;
+    }
+  };
+
+  var getDataByFeatures = function () {
+    featureInputs.forEach(function (featureItem) {
+      if (featureItem.checked) {
+        data = data.filter(function (dataItem) {
+          return dataItem.offer.features.includes(featureItem.value);
+        });
+      }
+    });
+  };
+
   var getDataByCount = function () {
     while (data.length > PINS_COUNT) {
       data.pop();
@@ -80,8 +159,14 @@
   };
 
   var applyFilter = function () {
+    data = window.data.ads.slice();
     getDataByType();
+    getDataByPrice();
+    getDataByRooms();
+    getDataByGuests();
+    getDataByFeatures();
     getDataByCount();
+    window.filter.data = data;
     window.adMap.removePins();
     window.adMap.removeCard();
     window.adMap.addPins(data);
@@ -91,7 +176,7 @@
     typeInput.value = Default.TYPE;
     priceInput.value = Default.PRICE;
     roomsInput.value = Default.ROOMS;
-    GuestsInput.value = Default.GUESTS;
+    guestsInput.value = Default.GUESTS;
 
     featureInputs.forEach(function (item) {
       item.checked = Default.FEATURE;
