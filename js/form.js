@@ -19,7 +19,8 @@
     rooms: 1,
     guests: 1,
     features: false,
-    description: ''
+    description: '',
+    avatar: 'img/muffin-grey.svg',
   };
 
 
@@ -39,6 +40,8 @@
   var features = formAd.querySelectorAll('.feature__checkbox');
   var description = formAd.querySelector('#description');
   var resetButton = formAd.querySelector('.ad-form__reset');
+  var avatarPreview = document.querySelector('.ad-form-header__preview img');
+  var adPreview = document.querySelector('.ad-form__photo');
 
   var setFormsStatus = function (method) {
     adFieldsets.forEach(function (item) {
@@ -195,6 +198,11 @@
     });
 
     description.value = DEFAULT.description;
+    avatarPreview.src = DEFAULT.avatar;
+
+    if (adPreview.children.length > 0) {
+      adPreview.children.item(0).remove();
+    }
   };
 
 
