@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
-  var KEYS = {
-    esc: 'Escape',
-    enter: 'Enter'
+  var Key = {
+    ESC: 'Escape',
+    ENTER: 'Enter'
   };
 
 
@@ -52,11 +52,11 @@
   };
 
   var isEscEvent = function (evt, action) {
-    isKeydownEvent(evt, action, KEYS.esc);
+    isKeydownEvent(evt, action, Key.ESC);
   };
 
   var isEnterEvent = function (evt, action) {
-    isKeydownEvent(evt, action, KEYS.enter);
+    isKeydownEvent(evt, action, Key.ENTER);
   };
 
   var isMainClickEvent = function (evt, action) {

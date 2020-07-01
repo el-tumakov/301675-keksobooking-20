@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
-  var DEFAULT_POSITION = {
-    top: '375px',
-    left: '570px'
+  var DefaultPosition = {
+    TOP: '375px',
+    LEFT: '570px'
   };
 
   var map = document.querySelector('.map');
@@ -58,8 +58,8 @@
     window.images.removeAvatarInputChangeListener();
     window.images.removeAdInputChangeListener();
 
-    mainPin.style.top = DEFAULT_POSITION.top;
-    mainPin.style.left = DEFAULT_POSITION.left;
+    mainPin.style.top = DefaultPosition.TOP;
+    mainPin.style.left = DefaultPosition.LEFT;
 
     mainPin.addEventListener('mousedown', mainPinMousedownHandler);
     mainPin.addEventListener('keydown', mainPinKeydownEnterHandler);

@@ -1,15 +1,15 @@
 'use strict';
 
 (function () {
-  var PHOTO_SIZE = {
-    'width': 45,
-    'height': 40
+  var PhotoSize = {
+    WIDTH: 45,
+    HEIGHT: 40
   };
-  var TYPES = {
-    'flat': 'Квартира',
-    'bungalo': 'Бунгало',
-    'house': 'Дом',
-    'palace': 'Дворец'
+  var Type = {
+    FLAT: 'Квартира',
+    BUNGALO: 'Бунгало',
+    HOUSE: 'Дом',
+    PALACE: 'Дворец'
   };
 
 
@@ -34,8 +34,8 @@
 
       photoElement.src = photos[i];
       photoElement.classList.add('popup__photo');
-      photoElement.width = PHOTO_SIZE.width;
-      photoElement.height = PHOTO_SIZE.height;
+      photoElement.width = PhotoSize.WIDTH;
+      photoElement.height = PhotoSize.HEIGHT;
 
       parentNode.appendChild(photoElement);
     }
@@ -46,16 +46,16 @@
 
     switch (data.offer.type) {
       case 'flat':
-        type = TYPES.flat;
+        type = Type.FLAT;
         break;
       case 'bungalo':
-        type = TYPES.bungalo;
+        type = Type.BUNGALO;
         break;
       case 'house':
-        type = TYPES.house;
+        type = Type.HOUSE;
         break;
       case 'palace':
-        type = TYPES.palace;
+        type = Type.PALACE;
         break;
     }
 

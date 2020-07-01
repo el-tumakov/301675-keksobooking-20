@@ -1,35 +1,35 @@
 'use strict';
 
 (function () {
-  var PRICE = {
-    'bungalo': 0,
-    'flat': 1000,
-    'house': 5000,
-    'palace': 10000
-  };
   var ROOM_NUMBER_100 = '100';
   var CAPACITY_NULL = '0';
-  var DEFAULT = {
-    title: '',
-    address: '',
-    house: 'flat',
-    price: PRICE.flat,
-    timeIn: '12:00',
-    timeOut: '12:00',
-    rooms: 1,
-    guests: 1,
-    features: false,
-    description: '',
-    avatar: 'img/muffin-grey.svg',
+  var Price = {
+    BUNGALO: 0,
+    FLAT: 1000,
+    HOUSE: 5000,
+    PALACE: 10000
+  };
+  var Default = {
+    TITLE: '',
+    ADDRESS: '',
+    HOUSE: 'flat',
+    PRICE: Price.FLAT,
+    TIME_IN: '12:00',
+    TIME_OUT: '12:00',
+    ROOMS: 1,
+    GUESTS: 1,
+    FEATURES: false,
+    DESCRIPTION: '',
+    AVATAR: 'img/muffin-grey.svg',
   };
 
 
-  var formAd = document.querySelector('.ad-form');
-  var adFieldsets = formAd.querySelectorAll('fieldset');
+  var mainPin = document.querySelector('.map__pin--main');
   var formFilters = document.querySelector('.map__filters');
+  var formAd = document.querySelector('.ad-form');
+  var formFieldsets = formAd.querySelectorAll('fieldset');
   var inputTitle = formAd.querySelector('#title');
   var inputAddress = formAd.querySelector('#address');
-  var mainPin = document.querySelector('.map__pin--main');
   var typeHousing = formAd.querySelector('#type');
   var pricePerNight = formAd.querySelector('#price');
   var capacity = formAd.querySelector('#capacity');
@@ -40,11 +40,11 @@
   var features = formAd.querySelectorAll('.feature__checkbox');
   var description = formAd.querySelector('#description');
   var resetButton = formAd.querySelector('.ad-form__reset');
-  var avatarPreview = document.querySelector('.ad-form-header__preview img');
-  var adPreview = document.querySelector('.ad-form__photo');
+  var avatarPreview = formAd.querySelector('.ad-form-header__preview img');
+  var adPreview = formAd.querySelector('.ad-form__photo');
 
   var setFormsStatus = function (method) {
-    adFieldsets.forEach(function (item) {
+    formFieldsets.forEach(function (item) {
       method(item);
     });
 
@@ -69,16 +69,16 @@
     typeHousing.addEventListener('change', function () {
       switch (typeHousing.value) {
         case 'bungalo':
-          changePrice(PRICE.bungalo);
+          changePrice(Price.BUNGALO);
           break;
         case 'flat':
-          changePrice(PRICE.flat);
+          changePrice(Price.FLAT);
           break;
         case 'house':
-          changePrice(PRICE.house);
+          changePrice(Price.HOUSE);
           break;
         case 'palace':
-          changePrice(PRICE.palace);
+          changePrice(Price.PALACE);
           break;
       }
     });
@@ -184,21 +184,21 @@
   };
 
   var setDefault = function () {
-    inputTitle.value = DEFAULT.title;
-    inputAddress.value = DEFAULT.address;
-    typeHousing.value = DEFAULT.house;
-    pricePerNight.value = DEFAULT.price;
-    timeIn.value = DEFAULT.timeIn;
-    timeOut.value = DEFAULT.timeOut;
-    roomNumber.value = DEFAULT.rooms;
-    capacity.value = DEFAULT.guests;
+    inputTitle.value = Default.TITLE;
+    inputAddress.value = Default.ADDRESS;
+    typeHousing.value = Default.HOUSE;
+    pricePerNight.value = Default.PRICE;
+    timeIn.value = Default.TIME_IN;
+    timeOut.value = Default.TIME_OUT;
+    roomNumber.value = Default.ROOMS;
+    capacity.value = Default.GUESTS;
 
     features.forEach(function (item) {
-      item.checked = DEFAULT.features;
+      item.checked = Default.FEATURES;
     });
 
-    description.value = DEFAULT.description;
-    avatarPreview.src = DEFAULT.avatar;
+    description.value = Default.DESCRIPTION;
+    avatarPreview.src = Default.AVATAR;
 
     if (adPreview.children.length > 0) {
       adPreview.children.item(0).remove();

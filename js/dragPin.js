@@ -1,9 +1,9 @@
 'use strict';
 
 (function () {
-  var LIMITS_Y = {
-    min: 130,
-    max: 630
+  var LimitY = {
+    MIN: 130,
+    MAX: 630
   };
 
   var map = document.querySelector('.map');
@@ -41,10 +41,10 @@
         pinCoords.x = map.offsetWidth - (pin.offsetWidth / 2);
       }
 
-      if (pinCoords.y < LIMITS_Y.min - pin.offsetHeight) {
-        pinCoords.y = LIMITS_Y.min - pin.offsetHeight;
-      } else if (pinCoords.y > LIMITS_Y.max - pin.offsetHeight) {
-        pinCoords.y = LIMITS_Y.max - pin.offsetHeight;
+      if (pinCoords.y < LimitY.MIN - pin.offsetHeight) {
+        pinCoords.y = LimitY.MIN - pin.offsetHeight;
+      } else if (pinCoords.y > LimitY.MAX - pin.offsetHeight) {
+        pinCoords.y = LimitY.MAX - pin.offsetHeight;
       }
 
       pin.style.top = pinCoords.y + 'px';

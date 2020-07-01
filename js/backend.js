@@ -1,18 +1,18 @@
 'use strict';
 
 (function () {
-  var URL = {
-    load: 'https://javascript.pages.academy/keksobooking/data',
-    save: 'https://javascript.pages.academy/keksobooking'
-  };
-  var STATUS_CODE = {
-    ok: 200
-  };
-  var METHOD = {
-    get: 'GET',
-    post: 'POST'
-  };
   var TIMEOUT = 100000;
+  var Url = {
+    LOAD: 'https://javascript.pages.academy/keksobooking/data',
+    SAVE: 'https://javascript.pages.academy/keksobooking'
+  };
+  var StatusCode = {
+    OK: 200
+  };
+  var Method = {
+    GET: 'GET',
+    POST: 'POST'
+  };
 
   var createXhr = function (onLoad, onError, method, url, data) {
     var xhr = new XMLHttpRequest();
@@ -20,7 +20,7 @@
     xhr.responseType = 'json';
 
     xhr.addEventListener('load', function () {
-      if (xhr.status === STATUS_CODE.ok) {
+      if (xhr.status === StatusCode.OK) {
         onLoad(xhr.response);
       } else {
         onError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
@@ -43,11 +43,11 @@
   };
 
   var load = function (onLoad, onError) {
-    createXhr(onLoad, onError, METHOD.get, URL.load);
+    createXhr(onLoad, onError, Method.GET, Url.LOAD);
   };
 
   var save = function (data, onLoad, onError) {
-    createXhr(onLoad, onError, METHOD.post, URL.save, data);
+    createXhr(onLoad, onError, Method.POST, Url.SAVE, data);
   };
 
   window.backend = {
