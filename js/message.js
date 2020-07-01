@@ -3,7 +3,7 @@
 (function () {
   var main = document.querySelector('main');
 
-  var render = function (template, success) {
+  var renderMessage = function (template, success) {
     main.appendChild(template.cloneNode(true));
 
     if (success) {
@@ -36,6 +36,6 @@
   };
 
   window.message = {
-    render: render
+    render: renderMessage
   };
 })();

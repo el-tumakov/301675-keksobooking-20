@@ -18,7 +18,7 @@
 
   var loadSuccessHandler = function (data) {
     window.data.ads = data;
-    window.filter.applyFilter();
+    window.filter.apply();
   };
 
   var saveSuccessHandler = function () {

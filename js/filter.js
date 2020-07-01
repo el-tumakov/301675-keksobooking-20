@@ -199,7 +199,7 @@
 
 
   window.filter = {
-    applyFilter: applyFilter,
+    apply: applyFilter,
     setFormChangeListener: setFormChangeListener,
     removeFormChangeListener: removeFormChangeListener,
     setDefault: setDefault

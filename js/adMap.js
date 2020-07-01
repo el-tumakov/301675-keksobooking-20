@@ -8,7 +8,7 @@
 
   var addPins = function (data) {
     for (var i = 0; i < data.length; i++) {
-      window.pin.renderPin(pinTemplate, pinsList, data[i]);
+      window.pin.render(pinTemplate, pinsList, data[i]);
     }
 
     pinsList.addEventListener('click', pinsListClickHandler);
@@ -45,7 +45,7 @@
       if (evt.path.includes(item)) {
         removeCard();
 
-        window.card.renderCard(
+        window.card.render(
             cardTemplate,
             filtersContainer,
             window.filter.data[index]
