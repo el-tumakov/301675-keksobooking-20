@@ -1,9 +1,12 @@
 'use strict';
 
 (function () {
-  var Key = {
+  var KeyboardKey = {
     ESC: 'Escape',
     ENTER: 'Enter'
+  };
+  var MouseKey = {
+    MAIN: 0
   };
 
 
@@ -52,17 +55,17 @@
   };
 
   var isEscEvent = function (evt, action) {
-    isKeydownEvent(evt, action, Key.ESC);
+    isKeydownEvent(evt, action, KeyboardKey.ESC);
   };
 
   var isEnterEvent = function (evt, action) {
-    isKeydownEvent(evt, action, Key.ENTER);
+    isKeydownEvent(evt, action, KeyboardKey.ENTER);
   };
 
   var isMainClickEvent = function (evt, action) {
     evt.preventDefault();
 
-    if (evt.button === 0) {
+    if (evt.button === MouseKey.MAIN) {
       action(evt);
     }
   };
