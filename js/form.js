@@ -164,7 +164,7 @@
   };
 
   var formSubmitHandler = function (evt) {
-    window.data.saveData();
+    window.data.save();
 
     evt.preventDefault();
   };

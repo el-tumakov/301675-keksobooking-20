@@ -25,7 +25,7 @@
     window.form.setFormSubmitListener();
     window.form.setResetButtonClickListener();
 
-    window.data.loadData();
+    window.data.load();
 
     window.filter.setFormChangeListener();
 
